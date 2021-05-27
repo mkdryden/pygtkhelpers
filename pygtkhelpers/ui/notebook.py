@@ -9,8 +9,8 @@ from path_helpers import path
 try:
     from jupyter_helpers.notebook import SessionManager
 except ImportError:
-    print >> sys.stderr, ('The NotebookManagerView requires the '
-                          '`jupyter-helpers` package.')
+    print(('The NotebookManagerView requires the '
+                          '`jupyter-helpers` package.'), file=sys.stderr)
     raise
 from ..delegates import SlaveView
 from .dialogs import yesno
@@ -157,7 +157,7 @@ class NotebookManagerList(SlaveView):
         # Only list sessions that are currently running.
         sessions = collections.OrderedDict([(k, v)
                                             for k, v in self.notebook_manager
-                                            .sessions.iteritems()
+                                            .sessions.items()
                                             if v.is_alive()])
         scroll_window = gtk.ScrolledWindow()
         scroll_window.set_size_request(480, 360)
@@ -177,7 +177,7 @@ class NotebookManagerList(SlaveView):
                          xpadding=x_padding,
                          ypadding=header_y_padding)
 
-        for i, (root, session) in enumerate(sessions.iteritems()):
+        for i, (root, session) in enumerate(sessions.items()):
             i += 1
             root = path(root)
             name_label = gtk.Label(root.name)
@@ -226,15 +226,15 @@ def add_filters(dialog, filters):
         filter_text.set_name(f['name'])
         if 'mime_type' in f:
             mime_types = f['mime_type']
-            if isinstance(mime_types, types.StringTypes):
+            if isinstance(mime_types, (str,)):
                 mime_types = [mime_types]
             for mime_type in mime_types:
                 filter_text.add_mime_type(mime_type)
         elif 'pattern' in f:
             patterns = f['pattern']
-            if isinstance(patterns, types.StringTypes):
+            if isinstance(patterns, (str,)):
                 patterns = [patterns]
             for pattern in patterns:
-                print 'add pattern: "%s"' % pattern
+                print('add pattern: "%s"' % pattern)
                 filter_text.add_pattern(pattern)
         dialog.add_filter(filter_text)

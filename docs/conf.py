@@ -37,8 +37,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'pygtkhelpers'
-copyright = u'2009-2010, pygtkhelpers Authors'
+project = 'pygtkhelpers'
+copyright = '2009-2010, pygtkhelpers Authors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -175,8 +175,8 @@ htmlhelp_basename = 'pygtkhelpersdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'pygtkhelpers.tex', u'pygtkhelpers Documentation',
-   u'pygtkherlpers Authors', 'manual'),
+  ('index', 'pygtkhelpers.tex', 'pygtkhelpers Documentation',
+   'pygtkherlpers Authors', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

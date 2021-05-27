@@ -49,7 +49,7 @@ def test_gproperty():
         gproperty('p', object)
 
     t = T2()
-    print t
+    print(t)
     assert t.get_property('a') == 0
 
 

@@ -15,7 +15,7 @@ class PersonForm(SlaveView):
     def create_ui(self):
         self.reset()
         def print_model(slave, attribute, value):
-            print slave.model, attribute, value
+            print(slave.model, attribute, value)
         self.connect('model-updated', print_model)
 
     def reset(self):

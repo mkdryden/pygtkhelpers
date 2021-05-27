@@ -35,7 +35,7 @@ def test_generator_task():
     GeneratorTask(do, work, done).start()
     refresh_gui()
 
-    assert data == range(10)*2
+    assert data == list(range(10))*2
 
 
 def test_gcall():

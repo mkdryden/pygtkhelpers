@@ -33,7 +33,7 @@ class CellMapper(object):
 
     def __init__(self, map_spec):
         self.mappers = []
-        for prop, attr in map_spec.items():
+        for prop, attr in list(map_spec.items()):
             # The user may either specify a function to compute the attribute
             # or a fixed attribute.
             if callable(attr):
@@ -117,7 +117,7 @@ class Cell(object):
         else:
             cell = CellRendererText(self, objectlist)
         cell.set_data('pygtkhelpers::cell', self)
-        for prop, value in self.cell_props.items():
+        for prop, value in list(self.cell_props.items()):
             cell.set_property(prop, value)
         return cell
 

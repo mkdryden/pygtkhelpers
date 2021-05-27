@@ -11,7 +11,7 @@ class ApplicationView(WindowView):
         self.widget.add(self.entry)
 
     def on_entry__changed(self, entry):
-        print entry.get_text()
+        print(entry.get_text())
 
 if __name__ == '__main__':
     ApplicationView().show_and_run()

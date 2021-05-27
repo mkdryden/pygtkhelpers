@@ -6,7 +6,7 @@ from pygtkhelpers.proxy import widget_proxies, StringList, SimpleComboBox
 from pygtkhelpers.utils import refresh_gui
 
 def pytest_generate_tests(metafunc):
-    for widget, proxy in widget_proxies.items():
+    for widget, proxy in list(widget_proxies.items()):
         if 'attr' in metafunc.funcargnames:
             if (not getattr(proxy, 'prop_name', None) or
                 getattr(proxy, 'dprop_name', None)):
@@ -111,7 +111,7 @@ def test_update_emits_changed(proxy, value):
     data = []
     proxy.connect('changed', lambda p, d: data.append(d))
     proxy.update(value)
-    print data
+    print(data)
     assert len(data)==1
 
 def test_widget_update_then_read(proxy, widget, attr, value):
@@ -122,7 +122,7 @@ def test_update_internal_wont_emit_changed(proxy, value):
     data = []
     proxy.connect('changed', lambda p, d: data.append(d))
     proxy.update_internal(value)
-    print data
+    print(data)
     assert len(data)==0
 
 def test_widget_externally_changed_emits():

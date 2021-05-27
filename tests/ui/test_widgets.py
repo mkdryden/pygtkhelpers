@@ -106,7 +106,7 @@ def test_attrsortcombo_with_objectlist():
 
     sort._proxy.update('age')
     name, order = ol.sort_by.call_args[0]
-    print (name, order)
+    print((name, order))
     assert name == 'age'
 
     sort._combo.set_active(0) # the combo is connected

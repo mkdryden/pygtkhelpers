@@ -34,7 +34,7 @@ def apply_addons(widget, *addon_types, **named_addon_types):
     for addon_type in addon_types:
         addon_type(widget)
 
-    for name, addon_type in named_addon_types.items():
+    for name, addon_type in list(named_addon_types.items()):
         addon_type(widget, addon_name=name)
 
 

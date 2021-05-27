@@ -39,23 +39,23 @@ listing = ObjectTree([
     ])
 
 def _on_left_clicked(ol, item, event):
-    print 'Left clicked', item
+    print('Left clicked', item)
 
 def _on_right_clicked(ol, item, event):
-    print 'Right clicked', item
+    print('Right clicked', item)
     ol.sort_by('age')
-    print ol.model_sort.get_sort_column_id()
+    print(ol.model_sort.get_sort_column_id())
 
 def _on_middle_clicked(ol, item, event):
     ol.search_by('age')
-    print 'Middle clicked', item
+    print('Middle clicked', item)
 
 def _on_double_clicked(ol, item, event):
-    print 'Double clicked', item
+    print('Double clicked', item)
     ol.move_item_down(item)
 
 def _on_expanded(ol, item, msg):
-    print msg, item
+    print(msg, item)
     return True
 
 listing.connect('item-left-clicked', _on_left_clicked)

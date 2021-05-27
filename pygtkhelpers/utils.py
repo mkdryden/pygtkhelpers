@@ -78,8 +78,8 @@ def _max(c):
 
 _MAX_VALUES = {int: _max('i'),
                float: float(2**1024 - 2**971),
-               long: _max('l')}
-_DEFAULT_VALUES = {str: '', float: 0.0, int: 0, long: 0L}
+               int: _max('l')}
+_DEFAULT_VALUES = {str: '', float: 0.0, int: 0, int: 0}
 
 
 def gproperty(name, ptype, default=None, nick='', blurb='',
@@ -120,7 +120,7 @@ def gproperty(name, ptype, default=None, nick='', blurb='',
             name, blurb))
 
     # Specific type checking
-    if ptype == int or ptype == float or ptype == long:
+    if ptype == int or ptype == float or ptype == int:
         default = (kwargs.get('minimum', ptype(0)),
                    kwargs.get('maximum', _MAX_VALUES[ptype]),
                    default)
@@ -244,7 +244,7 @@ class XFormatter(string.Formatter):
         try:
             return super(XFormatter, self).get_value(key, args, kwargs)
         except LookupError:
-            if isinstance(key, basestring):
+            if isinstance(key, str):
                 for obj in self.lookup_objects:
                     if hasattr(obj, key):
                         return getattr(obj, key)
@@ -306,7 +306,7 @@ def dict_to_form(dict):
         return v in (True, False)
 
     schema_entries = []
-    for k, v in dict.iteritems():
+    for k, v in dict.items():
         if is_int(v):
             schema_entries.append(Integer.named(k).using(default=v,
                                                          optional=True))

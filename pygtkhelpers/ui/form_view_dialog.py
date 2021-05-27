@@ -122,7 +122,7 @@ class FormViewDialog(object):
         return ((response == 0),
                 OrderedDict([(name, f.element.value)
                              for name, f in
-                             self.form_view.form.fields.items()]))
+                             list(self.form_view.form.fields.items())]))
 
     def on_changed(self, form_view, proxy_group, proxy, field_name, new_value):
         pass

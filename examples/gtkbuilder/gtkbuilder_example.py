@@ -67,7 +67,7 @@ class MainWindowView(WindowView):
         vbox.pack_end(StatusView().widget, expand=False)
     
     def on_toolbar_view__new_button_clicked(self, *a):
-        print 'New user ', self.user_browser.user_view.entry1.get_text(), '.'
+        print('New user ', self.user_browser.user_view.entry1.get_text(), '.')
 
 if __name__ == '__main__':
     view = MainWindowView()

@@ -59,7 +59,7 @@ def get_py_dtypes(data_frame):
          .map(lambda c: str if data_frame[c]
               .map(lambda v: isinstance(v, str)).all() else object))
 
-    df_py_dtypes.insert(0, 'i', range(df_py_dtypes.shape[0]))
+    df_py_dtypes.insert(0, 'i', list(range(df_py_dtypes.shape[0])))
     df_py_dtypes.index.name = 'column'
     return df_py_dtypes
 
@@ -107,7 +107,7 @@ def add_columns(tree_view, df_py_dtypes, list_store):
     for column_i, (i, dtype_i) in df_py_dtypes[['i', 'dtype']].iterrows():
         tree_column_i = gtk.TreeViewColumn(column_i)
         tree_column_i.set_name(column_i)
-        if dtype_i in (int, long):
+        if dtype_i in (int, int):
             property_name = 'text'
             cell_renderer_i = gtk.CellRendererSpin()
         elif dtype_i == float:

@@ -115,7 +115,7 @@ class LayerAlphaController(SlaveView):
         self._inserted_row_path = row_path[0]
 
     def on_row_deleted(self, list_store, row_path):
-        rows_index = range(self.df_surfaces.shape[0])
+        rows_index = list(range(self.df_surfaces.shape[0]))
         if self._inserted_row_path is not None:
             source_index = row_path[0]
             target_index = self._inserted_row_path

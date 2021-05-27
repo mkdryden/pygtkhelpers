@@ -11,6 +11,6 @@ def test_build_simple():
     b = gtk.Builder()
     b.add_from_string(uidef)
     objectlist = b.get_object('test')
-    print objectlist
+    print(objectlist)
     assert isinstance(objectlist, ObjectList)
 

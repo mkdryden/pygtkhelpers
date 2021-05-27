@@ -28,7 +28,7 @@ class RowFields(object):
     {'foo': 'Hello', 'bar': 'World'}
     '''
     def __init__(self, **kwargs):
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             setattr(self, key, value)
 
     def __setstate__(self, state):
@@ -44,7 +44,7 @@ class RowFields(object):
 
     @property
     def attrs(self):
-        return dict([(k, v) for k, v in self.__dict__.items()
+        return dict([(k, v) for k, v in list(self.__dict__.items())
                      if k not in ('__members__', '__methods__',
                                   '_getAttributeNames')])
 
@@ -113,7 +113,7 @@ class CombinedFields(ObjectList):
 
     @property
     def forms(self):
-        return dict([(k, v) for k, v in self._forms.iteritems()
+        return dict([(k, v) for k, v in self._forms.items()
                      if k != '__DefaultFields'])
 
     def __init__(self, forms, enabled_attrs, show_ids=True, **kwargs):
@@ -129,7 +129,7 @@ class CombinedFields(ObjectList):
         self.uuid_mapping = dict([(name, uuid4().get_hex()[:10])
                                   for name in self._forms])
         self.uuid_reverse_mapping = dict([(v, k) for k, v in
-                                          self.uuid_mapping.items()])
+                                          list(self.uuid_mapping.items())])
         self._columns = []
         self._full_field_to_field_def = {}
         if not enabled_attrs:
@@ -193,13 +193,13 @@ class CombinedFields(ObjectList):
         attr = title_map.get(column_title)
         if prompt:
             Fields = Form.of(self._full_field_to_field_def[attr])
-            local_field = Fields.field_schema_mapping.keys()[0]
+            local_field = list(Fields.field_schema_mapping.keys())[0]
 
             temp = FormViewDialog(Fields, title='Set %s' % local_field)
             response_ok, values = temp.run({local_field: value})
             if not response_ok:
                 return
-            value = values.values()[0]
+            value = list(values.values())[0]
         else:
             title_map = dict([(c.title, c.attr) for c in self.columns])
             attr = title_map.get(column_title)
@@ -288,7 +288,7 @@ class CombinedFields(ObjectList):
         if not rows:
             row_ids = []
         else:
-            row_ids = zip(*rows)[0]
+            row_ids = list(zip(*rows))[0]
         value = getattr(item, column.attr)
 
         self.grab_focus()
@@ -306,14 +306,14 @@ class CombinedFields(ObjectList):
         combined_row = self[row_id]
         form_row = combined_row.get_row_fields(form_name)
 
-        for attr, value in attrs.items():
+        for attr, value in list(attrs.items()):
             setattr(form_row, attr, value)
         self.update(combined_row)
 
     def _on_multiple_changed(self, attr):
         selection = self.get_selection()
         model, rows = selection.get_selected_rows()
-        row_ids = zip(*rows)[0]
+        row_ids = list(zip(*rows))[0]
         logging.debug('[CombinedFields] _on_multiple_changed(): attr=%s '
                       'selected_rows=%s', attr, row_ids)
         self.emit('rows-changed', row_ids, rows, attr)
@@ -397,9 +397,9 @@ class CombinedRow(object):
         self.combined_fields = combined_fields
 
         self.attributes = dict()
-        for form_name, form in combined_fields._forms.iteritems():
+        for form_name, form in combined_fields._forms.items():
             temp = form.from_defaults()
-            attr_values = dict([(k, v.value) for k, v in temp.iteritems()])
+            attr_values = dict([(k, v.value) for k, v in temp.items()])
             self.attributes[form_name] = RowFields(**attr_values)
         if attributes:
             self.attributes.update(attributes)
@@ -420,8 +420,7 @@ class CombinedRow(object):
 
     def __getattr__(self, name):
         if name not in ['attributes', 'combined_fields']:
-            for form_name, uuid_code in self.combined_fields.uuid_mapping\
-                    .iteritems():
+            for form_name, uuid_code in self.combined_fields.uuid_mapping.items():
                 field_set_prefix = self.field_set_prefix % uuid_code
                 if name.startswith(field_set_prefix):
                     return getattr(self.attributes[form_name],
@@ -430,8 +429,7 @@ class CombinedRow(object):
 
     def __setattr__(self, name, value):
         if name not in ['attributes', 'combined_fields']:
-            for form_name, uuid_code in self.combined_fields.uuid_mapping\
-                    .iteritems():
+            for form_name, uuid_code in self.combined_fields.uuid_mapping.items():
                 field_set_prefix = self.field_set_prefix % uuid_code
                 if name.startswith(field_set_prefix):
                     # Update value
@@ -444,4 +442,4 @@ class CombinedRow(object):
 
     def __str__(self):
         return '<CombinedRow attributes=%s>' % [(k, v.attrs) for k, v in
-                                                self.attributes.iteritems()]
+                                                self.attributes.items()]

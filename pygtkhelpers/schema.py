@@ -75,7 +75,7 @@ def flatten_dict(root, parents=None, sep='.'):
         parents = []
 
     result = []
-    for i, (k, v) in enumerate(root.iteritems()):
+    for i, (k, v) in enumerate(root.items()):
         parents_i = parents + [k]
         key_i = sep.join(parents_i)
         if isinstance(v, dict):
@@ -90,7 +90,7 @@ def flatten_dict(root, parents=None, sep='.'):
 def flatten_form(form_instance):
     return OrderedDict([(name_i, field_i.default if field_i.value is None
                          else field_i.value)
-                        for name_i, field_i in form_instance.iteritems()])
+                        for name_i, field_i in form_instance.items()])
 
 
 def get_fields_frame(schema):
@@ -177,7 +177,7 @@ def get_types(root, func, parents=None):
         parents = []
 
     result = {}
-    for i, (k, v) in enumerate(root.iteritems()):
+    for i, (k, v) in enumerate(root.items()):
         parents_i = parents + [k]
         if isinstance(v, dict) and v.get('type') == 'object':
             result[k] = get_types(v['properties'], func, parents=parents_i)
@@ -217,15 +217,14 @@ class SchemaDialog(FormViewDialog):
         self.validate()
 
     def validate(self):
-        data_dict = expand_items(flatten_form(self.form_view.form.schema)
-                                 .items())
+        data_dict = expand_items(list(flatten_form(self.form_view.form.schema).items()))
         errors = OrderedDict([('.'.join(e.path), e)
                               for e in self.validator.iter_errors(data_dict)])
 
         # Light red color.
         light_red = gtk.gdk.Color(240 / 255., 126 / 255., 110 / 255.)
 
-        for name_i, field_i in self.form_view.form.fields.iteritems():
+        for name_i, field_i in self.form_view.form.fields.items():
             color_i = light_red if name_i in errors else None
             label_widget_i = (field_i.widget
                               .get_data('pygtkhelpers::label_widget'))
@@ -234,7 +233,7 @@ class SchemaDialog(FormViewDialog):
         if errors:
             self.button_ok.set_sensitive(False)
             message = '\n'.join(['[{}] {}'.format(name, error.message)
-                                 for name, error in errors.iteritems()])
+                                 for name, error in errors.items()])
             self.label_event_box.modify_bg(gtk.STATE_NORMAL, light_red)
             self.label_error.set_markup(message)
             self.vbox_errors.show()
@@ -296,7 +295,7 @@ class MetaDataDialog(SchemaDialog):
             else:
                 # Make system bell sound to indicate a scan has
                 # completed.
-                print '\a\a',
+                print('\a\a', end=' ')
 
             # Re-enable the scan button.
             row_i['button'].set_sensitive(True)
@@ -331,10 +330,9 @@ class MetaDataDialog(SchemaDialog):
         # N.B., table widgets are listed in reverse order of insertion in list
         # of children, so list of pairs is reversed (i.e., `[::-1]`).
         widget_pairs = [children[2 * i:2 * i + 2]
-                        for i in xrange(len(self.form_view.form.schema))][::-1]
+                        for i in range(len(self.form_view.form.schema))][::-1]
 
-        for i, (name_i, form_field_i) in enumerate(self.form_view.form.schema
-                                                   .iteritems()):
+        for i, (name_i, form_field_i) in enumerate(self.form_view.form.schema.items()):
             widget_i, event_box_i = widget_pairs[i]
             label_i = event_box_i.get_children()[0]
 
@@ -439,7 +437,7 @@ def schema_dialog(schema, data=None, device_name=None, max_width=None,
         df_modes = pu.get_available_video_source_configs()
         query = (df_modes.width == df_modes.width)
         if device_name is not None:
-            if isinstance(device_name, types.StringTypes):
+            if isinstance(device_name, (str,)):
                 query &= (df_modes.device_name == device_name)
             else:
                 query &= (df_modes.device_name.isin(device_name))

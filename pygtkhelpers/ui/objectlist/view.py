@@ -213,7 +213,7 @@ class ObjectTreeViewBase(gtk.TreeView):
             raise AttributeError('selected_ids only valid for select_multiple')
         model, selected_paths = selection.get_selected_rows()
         if selected_paths:
-            return zip(*selected_paths)[0]
+            return list(zip(*selected_paths))[0]
         else:
             return ()
 
@@ -573,7 +573,7 @@ class SubObjectTree(object):
                 yield self.items[i], item_path
 
     def __str__(self):
-        return str(zip(self.items, self.item_paths))
+        return str(list(zip(self.items, self.item_paths)))
 
 
 class Node(object):
@@ -832,7 +832,7 @@ class ObjectTree(ObjectTreeViewBase):
                                       itertools.islice(siblings_iter,
                                                        len(items))])
         try:
-            next_item = siblings_iter.next()
+            next_item = next(siblings_iter)
             if len(self._path_for(next_item)) <= len(self._path_for(items[0])):
                 complete_check = True
             else:
@@ -879,8 +879,8 @@ class ObjectTree(ObjectTreeViewBase):
 
     def remove_items(self, items):
         # Get items sorted by model path
-        sorted_items = zip(*sorted([(self.model.get_path(self.item_iter(i)), i)
-                                    for i in items]))[1]
+        sorted_items = list(zip(*sorted([(self.model.get_path(self.item_iter(i)), i)
+                                    for i in items])))[1]
 
         # Delete items in reverse order to ensure all children are
         # removed before removing the corresponding parent.

@@ -77,7 +77,7 @@ def test_sort_by_col_desc(items, user, user2, user3):
     assert it[1] is user2
     assert it[2] is user3
     ui = items._sort_iter_for(user)
-    print items.model_sort.iter_next(ui)
+    print(items.model_sort.iter_next(ui))
     # simulate a click on the header
     items.model_sort.set_sort_column_id(0, gtk.SORT_DESCENDING)
     it = [i[0] for i in items.model_sort]

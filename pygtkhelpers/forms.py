@@ -82,7 +82,7 @@ class FieldSet(object):
         self.proxies = ProxyGroup()
         self.fields = OrderedDict()
         self.proxies.connect('changed', self._on_proxies_changed)
-        for name, element in self.schema.items():
+        for name, element in list(self.schema.items()):
             self._setup_widget(name, element)
 
     def _setup_widget(self, name, element):
@@ -105,7 +105,7 @@ class FieldSet(object):
         table.set_row_spacings(6)
         table.set_col_spacings(6)
         table.set_border_width(6)
-        for i, field_i in enumerate(self.fields.itervalues()):
+        for i, field_i in enumerate(self.fields.values()):
             field_i.layout_as_table(table, i)
         return table
 
@@ -205,7 +205,7 @@ class IntegerBuilder(ElementBuilder):
     def build(self, widget, style, element, options):
         widget.set_digits(0)
         adj = widget.get_adjustment()
-        min, max = -sys.maxint, sys.maxint
+        min, max = -sys.maxsize, sys.maxsize
         for v in element.validators:
             if hasattr(v, 'minimum'):
                 min = v.minimum

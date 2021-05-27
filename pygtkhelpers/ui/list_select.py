@@ -36,7 +36,7 @@ class ListSelectView(SlaveView):
         self.list_box.append(item_object)
 
     def selected_items(self):
-        return [i.as_dict.values()[0]
+        return [list(i.as_dict.values())[0]
                 for i in self.list_box.selected_items]
 
     def on_list_box__selection_changed(self, *args, **kwargs):
@@ -49,7 +49,7 @@ class TestWindow(WindowView):
                                        'widget')
 
     def on_list_box__selection_changed(self, list_box, selected_items):
-        print selected_items
+        print(selected_items)
 
 
 if __name__ == '__main__':

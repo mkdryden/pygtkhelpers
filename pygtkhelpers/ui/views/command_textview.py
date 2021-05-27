@@ -64,7 +64,7 @@ class CommandTextView(SlaveView):
             loop.call_soon(_refresh_gui)
             transport, protocol = loop.run_until_complete(proc)
             loop.run_forever()
-        except Exception, exception:
+        except Exception as exception:
             self._write(2, str(exception))
         else:
             return transport.get_returncode()
@@ -132,7 +132,7 @@ def get_run_command_dialog(command, shell=False, title='', data_callback=None,
     '''
     dialog = gtk.Dialog(title=title or None, parent=parent)
     dialog.set_size_request(540, -1)
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
         setattr(dialog.props, key, value)
 
     dialog.add_buttons(gtk.STOCK_OK, gtk.RESPONSE_OK)

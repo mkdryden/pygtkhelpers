@@ -49,7 +49,7 @@ class ListSelect(SlaveView):
         select_column = self.treeview_select.get_column(column_i).get_name()
 
         self.df_data.loc[:, select_column] = value
-        for i in xrange(len(self.list_store)):
+        for i in range(len(self.list_store)):
             self.list_store[i][column_i] = value
 
     def select_none(self):

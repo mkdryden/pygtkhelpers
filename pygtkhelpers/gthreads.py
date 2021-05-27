@@ -14,11 +14,11 @@
     :copyright: 2005-2010 by pygtkhelpers Authors
     :license: LGPL 2 or later (see README/COPYING/LICENSE)
 """
-from __future__ import with_statement
+
 import functools
 import threading
-import thread
-import Queue as queue
+import _thread
+import queue as queue
 import gobject
 import sys
 import warnings
@@ -94,8 +94,8 @@ class AsyncTask(object):
                 target=self._work_callback,
                 args=args, kwargs=kwargs
                 )
-        thread.setDaemon(self.daemon)
-        thread.start()
+        _thread.setDaemon(self.daemon)
+        _thread.start()
 
     def work_callback(self):
         pass
@@ -165,7 +165,7 @@ class GeneratorTask(AsyncTask):
         for ret in self.work_callback(*args, **kwargs):
             # XXX: what about checking self.counter?
             if self._stopped:
-                thread.exit()
+                _thread.exit()
             gobject.idle_add(self._loop_callback, (counter, ret),
                              priority=self.priority)
         if self._complete_callback is not None:
@@ -222,7 +222,7 @@ def invoke_in_mainloop(func, *args, **kwargs):
         return data
     else:
         tp, val, tb = results.get()
-        raise tp, val, tb
+        raise tp(val).with_traceback(tb)
 
 
 def gtk_threadsafe(func):

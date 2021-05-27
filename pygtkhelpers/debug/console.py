@@ -526,7 +526,7 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
         saved_stdout, saved_stderr = sys.stdout, sys.stderr
         sys.stdout, sys.stderr = self._stdout, self._stderr
         try:
-            execfile(filename, self.locals)
+            exec(compile(open(filename, "rb").read(), filename, 'exec'), self.locals)
         except SystemExit:
             raise
         except Exception:
@@ -564,7 +564,7 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
                 for s in strings:
                     if s.startswith(end):
                         completions[s] = None
-                completions = completions.keys()
+                completions = list(completions.keys())
             else:
                 completions = strings
 
@@ -597,15 +597,15 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
         strings = keyword.kwlist
 
         if self.locals:
-            strings.extend(self.locals.keys())
+            strings.extend(list(self.locals.keys()))
 
         try:
-            strings.extend(eval("globals()", self.locals).keys())
+            strings.extend(list(eval("globals()", self.locals).keys()))
         except Exception:
             pass
 
         try:
-            exec "import __builtin__" in self.locals
+            exec("import __builtin__", self.locals)
             strings.extend(eval("dir(__builtin__)", self.locals))
         except Exception:
             pass
@@ -613,7 +613,7 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
         for s in strings:
             if s.startswith(text):
                 completions[s] = None
-        completions = completions.keys()
+        completions = list(completions.keys())
         completions.sort()
         return completions
 

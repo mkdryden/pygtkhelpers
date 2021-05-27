@@ -36,7 +36,7 @@ helpers and utilities to help debug PyGTK applications.
 
 
 install_requires = ['cairo-helpers>=0.2.post1', 'flatland-fork>=0.4.post2',
-                    'jupyter-helpers>=0.10', 'si-prefix>=0.4',
+                    'jupyter-helpers>=0.1', 'si-prefix>=0.4',
                     'svg-model>=0.5.post18', 'redirect_io', 'jsonschema',
                     'trollius>=2.1']
 
@@ -47,8 +47,8 @@ else:
     try:
         import gtk
     except ImportError:
-        print >> sys.stderr, ('Please install Python bindings for Gtk 2 using '
-                              'your systems package manager.')
+        print(('Please install Python bindings for Gtk 2 using '
+                              'your systems package manager.'), file=sys.stderr)
 
 
 setup(name='wheeler.pygtkhelpers',

@@ -226,7 +226,7 @@ class GtkShapesCanvasView(GtkCairoView):
         font_options.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
         cairo_context.set_font_options(font_options)
 
-        for shape_id, label_i in labels.iteritems():
+        for shape_id, label_i in labels.items():
             cairo_context.set_source_rgba(*shape_rgba_colors.ix[shape_id])
             self.render_label(cairo_context, shape_id, label_i,
                               label_scale=0.6)

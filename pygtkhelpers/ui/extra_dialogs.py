@@ -65,7 +65,7 @@ def field_entry_dialog(field, value=None, title='Input value', parent=None,
     else:
         values = None
     valid, response = dialog.run(values, use_markup=use_markup)
-    return valid, response.values()[0]
+    return valid, list(response.values())[0]
 
 
 def integer_entry_dialog(name, value=0, title='Input value', min_value=None,

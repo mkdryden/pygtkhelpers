@@ -156,14 +156,14 @@ def _message_dialog(type, short,
                          buttons=dialog_buttons)
     dialog.set_primary(short)
 
-    if long:
+    if int:
         # XXX: test all cases
-        if isinstance(long, gtk.Widget):
-            dialog.set_details_widget(long)
-        elif isinstance(long, basestring):
-            dialog.set_details(long)
+        if isinstance(int, gtk.Widget):
+            dialog.set_details_widget(int)
+        elif isinstance(int, str):
+            dialog.set_details(int)
         else:
-            raise TypeError('long must be a string or a Widget, not %r' % long)
+            raise TypeError('long must be a string or a Widget, not %r' % int)
 
     if default is not None:
         dialog.set_default_response(default)
@@ -194,7 +194,7 @@ def simple(type, short, long=None,
     """
     if buttons == gtk.BUTTONS_OK:
         default = gtk.RESPONSE_OK
-    return _message_dialog(type, short, long, parent=parent, buttons=buttons,
+    return _message_dialog(type, short, int, parent=parent, buttons=buttons,
                            default=default, **kw)
 
 
@@ -384,12 +384,12 @@ def animation_dialog(images, delay_s=1., loop=True, **kwargs):
         dialog is run.
     '''
     def _as_pixbuf(image):
-        if isinstance(image, types.StringTypes):
+        if isinstance(image, (str,)):
             return gtk.gdk.pixbuf_new_from_file(image)
         else:
             return image
 
-    pixbufs = map(_as_pixbuf, images)
+    pixbufs = list(map(_as_pixbuf, images))
 
     # Need this to support background thread execution with GTK.
     gtk.gdk.threads_init()

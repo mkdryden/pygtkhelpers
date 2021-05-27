@@ -152,7 +152,7 @@ class FilepathBuilder(ElementBuilder):
     def build(self, widget, style, element, options):
         if style == 'browse':
             widget.set_size_request(-1, -1)
-        for k, v in element.properties.iteritems():
+        for k, v in element.properties.items():
             setattr(widget, k, element.properties[k])
         return widget
 
@@ -207,7 +207,7 @@ class EnumBuilder(ElementBuilder):
                                  'of choices (%d)' % len(choices))
         else:
             # Assume the default is the actual value
-            default_value = zip(*choices)[1].index(element.default_value)
+            default_value = list(zip(*choices))[1].index(element.default_value)
         widget.set_choices(choices, default_value)
         return widget
 
@@ -258,4 +258,4 @@ if __name__ == '__main__':
         Directory.named('devices_directory').using(default='', optional=True),
     )
     dialog = FormViewDialog(form)
-    print dialog.run()
+    print(dialog.run())

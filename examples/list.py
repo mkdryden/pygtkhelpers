@@ -28,19 +28,19 @@ listing = ObjectList([
     ])
 
 def _on_left_clicked(ol, item, event):
-    print 'Left clicked', item
+    print('Left clicked', item)
 
 def _on_right_clicked(ol, item, event):
-    print 'Right clicked', item
+    print('Right clicked', item)
 
 def _on_middle_clicked(ol, item, event):
-    print 'Middle clicked', item
+    print('Middle clicked', item)
 
 def _on_double_clicked(ol, item, event):
-    print 'Double clicked', item
+    print('Double clicked', item)
 
 def _on_item_activated(ol, item):
-    print 'Item activated', item
+    print('Item activated', item)
 
 listing.connect('item-left-clicked', _on_left_clicked)
 listing.connect('item-right-clicked', _on_right_clicked)

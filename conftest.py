@@ -21,5 +21,5 @@ def pytest_runtest_call(item, __multicall__):
         sys.excepthook = hook.oldhook
         if hook.called:
             tp, val, tb = hook.args
-            print repr(tp), repr(val), repr(tb)
-            raise tp, val, tb
+            print(repr(tp), repr(val), repr(tb))
+            raise tp(val).with_traceback(tb)

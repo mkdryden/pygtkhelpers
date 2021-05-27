@@ -4,7 +4,7 @@
 
     a simple class repressenting a person for usage in exampes
 """
-from __future__ import with_statement
+
 
 
 try: #XXX
